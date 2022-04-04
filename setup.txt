@@ -1,0 +1,6 @@
+mongodb+srv://test001:test001@cluster0.wuqhy.mongodb.net/authDB?retryWrites=true&w=majority
+
+user_admin - username
+xkCbrFAAlDWm7TB3 - password
+
+mongodb+srv://user_admin:xkCbrFAAlDWm7TB3@cluster0.yfj1p.mongodb.net/authDB?retryWrites=true&w=majority
