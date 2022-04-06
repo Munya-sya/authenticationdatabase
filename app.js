@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
+const Pollcreate = require("./db/createPoll");
 const auth = require("./auth");
 
 // execute database connection
@@ -131,6 +132,43 @@ app.post("/login", (request, response) => {
     });
 });
 
+//create poll
+app.post("/pollcreate", (request, response) => {
+  const poll = new Pollcreate({
+    title: request.body.title,
+    useremail: request.body.useremail,
+    choices: request.body.choices
+  });
+  // save the new user
+  poll
+    .save()
+    // return success if the new user is added to the database successfully
+    .then((result) => {
+      response.status(201).send({
+        message: "Poll Created Successfully",
+        result,
+      });
+    })
+    // catch erroe if the new user wasn't added successfully to the database
+    .catch((error) => {
+      response.status(500).send({
+        message: "Error creating poll",
+        error,
+      });
+    });
+});
+
+// Get pOLLS
+app.get("/getpolls", (request, response) => {
+  Pollcreate.find((error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      response.json(data);
+    }
+  });
+});
+
 // free endpoint
 app.get("/free-endpoint", (request, response) => {
   response.json({ message: "You are free to access me anytime" });
@@ -138,7 +176,8 @@ app.get("/free-endpoint", (request, response) => {
 
 // authentication endpoint
 app.get("/auth-endpoint", auth, (request, response) => {
-  response.send({ message: "You are authorized to access me" });
+  response.send({ message: "You are authorized to access me"
+ });
 });
 
 module.exports = app;
