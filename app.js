@@ -176,8 +176,14 @@ app.get("/free-endpoint", (request, response) => {
 
 // authentication endpoint
 app.get("/auth-endpoint", auth, (request, response) => {
-  response.send({ message: "You are authorized to access me"
- });
+  User.findById(
+    request.params.id, (error, data) => {
+  if (error) {
+    return next(error);
+  } else {
+    response.json({message:data});
+  }
+});
 });
 
 module.exports = app;
